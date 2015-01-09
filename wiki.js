@@ -18,6 +18,8 @@ module.exports = (function() {
            that.isLogin = true;
            callback();
          });
+       } else {
+         callback();
        }
      }
    };
