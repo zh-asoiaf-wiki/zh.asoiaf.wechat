@@ -9,7 +9,7 @@
   "dependencies": {
     "wechat": "*", 
     "express": "*", 
-    "nodemw": "*"
+    "zh.asoiaf.utility": "*"
   }, 
   "keywords": [
     "zh.asoiaf",

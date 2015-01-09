@@ -7,8 +7,8 @@ var wcConf = {
   encodingAESKey: process.env.WC_KEY
 };
 
-var Wiki = require('./wiki.js');
-var wiki = new Wiki({
+var utility = require('zh.asoiaf.utility');
+var wiki = new utility.Wiki({
   config: {
     "server": "zh.asoiaf.wikia.com", 
     "path": "", 
