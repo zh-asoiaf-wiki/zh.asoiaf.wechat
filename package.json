@@ -1,0 +1,22 @@
+{
+  "name": "zh.asoiaf.wechat",
+  "version": "0.0.1",
+  "description": "Wechat server for zh.asoiaf",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }, 
+  "dependencies": {
+    "wechat": "*", 
+    "express": "*"
+  }, 
+  "keywords": [
+    "zh.asoiaf",
+    "wechat"
+  ],
+  "repository": {
+    "type": "git", 
+    "url": "git@github.com:zh-asoiaf-wiki/zh.asoiaf.wechat.git"
+  }, 
+  "author": "AemonTargaryen"
+}
