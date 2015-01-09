@@ -18,41 +18,29 @@ var wiki = new utility.Wiki({
     "debug": true
   }
 });
+var wikia = new utility.Wikia();
 
-app.use(express.query());
+var WIKIA_LOGO = 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png';
+
+// app.use(express.query());
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
   console.log(msg);
   if (msg.MsgType == 'text') {
-    wiki.tryBot(function() {
-      wiki.client.getArticle(msg.Content, function(content) {
-        if (content) {
-          res.reply([
-            {
-              title: msg.Content, 
-              description: '详见冰火中文维基', 
-              picurl: 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png', 
-              url: 'http://zh.asoiaf.wikia.com/wiki/' + msg.Content
-            }
-          ]);
-        } else {
-          res.reply('No pages matched, please try again...');
+    wikia.info(msg.Content, function(info) {
+      if (info) {
+        res.reply([
+        {
+          title: msg.Content, 
+          description: info['abstract'], 
+          url: info.url, 
+          picurl: ((info.picurl) ? info.picurl : WIKIA_LOGO)
         }
-        console.log('Respond finished...');
-      });
+        ]);
+      } else {
+        res.reply('暂未找到相关词条。关键词功能正在开发完善，尽情期待！');
+      }
     });
-  } else {
-    res.reply('Currently not supported, sorry...');
-  /*
-  res.reply([
-    {
-      title: 'Have a look...', 
-      description: 'test', 
-      picurl: 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png', 
-      url: 'http://zh.asoiaf.wikia.com'
-    }
-  ]);
-  */
   }
 }));
 
