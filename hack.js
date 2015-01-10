@@ -4,4 +4,5 @@ module.exports = function(src) {
   if (src == '') return '1';
   // hack 'app'
   if (src.toUpperCase() == 'APP') return 'APP';
+  return src;
 };
