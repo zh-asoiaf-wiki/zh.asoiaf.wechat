@@ -42,12 +42,14 @@ var wiki = new utility.Wiki({
 var wikia = new utility.Wikia();
 
 var consts = require('./consts.js');
+var hack = require('./hack.js');
 
 // app.use(express.query());
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
   logger.info(msg);
   if (msg.MsgType == 'text') {
+    msg.Content = hack(msg.Content);
     if (msg.Content == consts.HELP) {
       res.reply(consts.HELP_TEXT);
     } else {
