@@ -50,8 +50,10 @@ app.use('', wechat(wcConf, function(req, res, next) {
     if (msg.Content == consts.HELP) {
       res.reply(consts.HELP_TEXT);
     } else {
-      wikia.info(msg.Content, function(info) {
-        if (info) {
+      wikia.info(msg.Content, function(err, info) {
+        if (err) {
+          res.reply(consts.MSG_ERROR);
+        } else if (info) {
           res.reply([
           {
             title: msg.Content, 
@@ -62,7 +64,11 @@ app.use('', wechat(wcConf, function(req, res, next) {
           ]);
         } else {
           wikia.search(msg.Content, function(err, articles) {
-            if (!err && articles.length > 0) {
+            if (err) {
+              res.reply(consts.MSG_ERROR);
+            } else if (!articles || articles.length == 0) {
+              res.reply(consts.NOTFOUND);
+            } else {
               var content = consts.MSG_SUGGEST;
               var items = [];
               for (var i = 0; i < articles.length; ++i) {
@@ -74,10 +80,6 @@ app.use('', wechat(wcConf, function(req, res, next) {
                 });
               }
               res.reply(items);
-            } else if (articles.length == 0) {
-              res.reply(consts.MSG_NOTFOUND);
-            } else {
-              res.reply(consts.MSG_ERROR);
             }
           });
         }
