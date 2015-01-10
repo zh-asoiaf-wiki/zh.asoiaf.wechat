@@ -7,6 +7,25 @@ var wcConf = {
   encodingAESKey: process.env.WC_KEY
 };
 
+var log4js = require('log4js');
+log4js.configure({
+  appenders: [
+  //{ 
+  //  type: 'console'
+  //}, 
+  { 
+    type: 'file', 
+    filename: 'logs/access.log', 
+    maxLogSize: 1024, 
+    backups: 3, 
+    category: 'normal'
+  }
+  ],
+  replaceConsole: true
+});
+var logger = log4js.getLogger('normal');
+logger.setLevel('INFO');
+
 var utility = require('zh.asoiaf.utility');
 /*
 var wiki = new utility.Wiki({
@@ -27,7 +46,7 @@ var consts = require('./consts.js');
 // app.use(express.query());
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
-  console.log(msg);
+  logger.info(msg);
   if (msg.MsgType == 'text') {
     if (msg.Content == consts.HELP) {
       res.reply(consts.HELP_TEXT);

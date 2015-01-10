@@ -9,6 +9,7 @@
   "dependencies": {
     "wechat": "*", 
     "express": "*", 
+    "log4js": "*", 
     "zh.asoiaf.utility": "*"
   }, 
   "keywords": [
