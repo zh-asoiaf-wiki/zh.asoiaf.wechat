@@ -10,9 +10,6 @@ var wcConf = {
 var log4js = require('log4js');
 log4js.configure({
   appenders: [
-  //{ 
-  //  type: 'console'
-  //}, 
   { 
     type: 'file', 
     filename: 'logs/access.log', 
@@ -72,7 +69,8 @@ app.use('', wechat(wcConf, function(req, res, next) {
                 items.push({
                   title: articles[i].title, 
                   // description: TODO
-                  url: articles[i].url
+                  url: articles[i].url, 
+                  picurl: articles[i].picurl
                 });
               }
               res.reply(items);
@@ -86,8 +84,8 @@ app.use('', wechat(wcConf, function(req, res, next) {
       });
     }
   } else if (msg.MsgType == 'event') {
-      if (msg.Event == 'subscribe') {
-      res.reply('感谢订阅冰与火之歌中文维基。本账号如同一部随身携带的词典，帮助您轻松查阅冰火世界的名词释义。丹妮、御林铁卫、瓦雷利亚钢，键入任何感兴趣的名词、领略冰火世界的奇幻风光。\n如有疑问，回复1查看帮助~');
+    if (msg.Event == 'subscribe') {
+      res.reply(consts.MSG_SUBSCRIBE);
     } else if (msg.Event == 'unsubscribe') {
       // TODO
     }
