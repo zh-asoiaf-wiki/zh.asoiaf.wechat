@@ -22,30 +22,34 @@ var wiki = new utility.Wiki({
 */
 var wikia = new utility.Wikia();
 
-var WIKIA_LOGO = 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png';
+var consts = require('./consts.js');
 
 // app.use(express.query());
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
   console.log(msg);
   if (msg.MsgType == 'text') {
-    wikia.info(msg.Content, function(info) {
-      if (info) {
-        res.reply([
-        {
-          title: msg.Content, 
-          description: info['abstract'], 
-          url: info.url, 
-          picurl: ((info.picurl) ? info.picurl : WIKIA_LOGO)
+    if (msg.Content == consts.HELP) {
+      res.reply(consts.HELP_TEXT);
+    } else {
+      wikia.info(msg.Content, function(info) {
+        if (info) {
+          res.reply([
+          {
+            title: msg.Content, 
+            description: info['abstract'], 
+            url: info.url, 
+            picurl: ((info.picurl) ? info.picurl : consts.WIKIA_LOGO)
+          }
+          ]);
+        } else {
+          res.reply(consts.MSG_NOTFOUND);
         }
-        ]);
-      } else {
-        res.reply('暂未找到相关词条。关键词功能正在开发完善，尽情期待！');
-      }
-    });
+      });
+    }
   } else if (msg.MsgType == 'event') {
-    if (msg.Event == 'subscribe') {
-      res.reply('感谢订阅冰与火之歌中文维基。本账号如同一部随身携带的词典，帮助您轻松查阅冰火世界的名词释义。丹妮、史塔克、君临，键入任何感兴趣的名词、领略冰火世界的奇幻风光。');
+      if (msg.Event == 'subscribe') {
+      res.reply('感谢订阅冰与火之歌中文维基。本账号如同一部随身携带的词典，帮助您轻松查阅冰火世界的名词释义。丹妮、御林铁卫、瓦雷利亚钢，键入任何感兴趣的名词、领略冰火世界的奇幻风光。\n如有疑问，回复1查看帮助~');
     } else if (msg.Event == 'unsubscribe') {
       // TODO
     }
