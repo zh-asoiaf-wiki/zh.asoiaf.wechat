@@ -43,7 +43,24 @@ app.use('', wechat(wcConf, function(req, res, next) {
           }
           ]);
         } else {
-          res.reply(consts.MSG_NOTFOUND);
+          wikia.search(msg.Content, function(err, articles) {
+            if (!err && articles.length > 0) {
+              var content = consts.MSG_SUGGEST;
+              var items = [];
+              for (var i = 0; i < articles.length; ++i) {
+                items.push({
+                  title: articles[i].title, 
+                  // description: TODO
+                  url: articles[i].url
+                });
+              }
+              res.reply(items);
+            } else if (articles.length == 0) {
+              res.reply(consts.MSG_NOTFOUND);
+            } else {
+              res.reply(consts.MSG_ERROR);
+            }
+          });
         }
       });
     }
