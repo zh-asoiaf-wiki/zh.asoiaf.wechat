@@ -18,7 +18,7 @@ log4js.configure({
     category: 'normal'
   }
   ],
-  replaceConsole: true
+  replaceConsole: false
 });
 var logger = log4js.getLogger('normal');
 logger.setLevel('INFO');
