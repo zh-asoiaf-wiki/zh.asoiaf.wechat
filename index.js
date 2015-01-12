@@ -13,8 +13,8 @@ log4js.configure({
   { 
     type: 'file', 
     filename: 'logs/access.log', 
-    maxLogSize: 1024, 
-    backups: 3, 
+    maxLogSize: 65536, 
+    backups: 7, 
     category: 'normal'
   }
   ],
@@ -24,31 +24,25 @@ var logger = log4js.getLogger('normal');
 logger.setLevel('INFO');
 
 var utility = require('zh.asoiaf.utility');
-/*
-var wiki = new utility.Wiki({
-  config: {
-    "server": "zh.asoiaf.wikia.com", 
-    "path": "", 
-    "username": process.env.BOT_USERNAME, 
-    "password": process.env.BOT_PASSWORD, 
-    "userAgent": "zh.asoiaf.wechat", 
-    "debug": true
-  }
-});
-*/
 var wikia = new utility.Wikia();
 
 var consts = require('./consts.js');
 var hack = require('./hack.js');
 
-// app.use(express.query());
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
   logger.info(msg);
   if (msg.MsgType == 'text') {
     msg.Content = hack(msg.Content);
     if (msg.Content == consts.HELP) {
-      res.reply(consts.HELP_TEXT);
+      res.reply([
+      {
+        title: consts.HELP_TITLE, 
+        description: consts.HELP_TEXT, 
+        url: consts.HELP_URL, 
+        picurl: consts.HELP_PICURL
+      }
+      ]);
     } else {
       wikia.info(msg.Content, function(err, info) {
         if (err) {
