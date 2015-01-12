@@ -44,6 +44,14 @@ app.use('', wechat(wcConf, function(req, res, next) {
         picurl: consts.HELP_PICURL
       }
       ]);
+    } else if (msg.Content == consts.MAP) {
+      res.reply([
+      {
+        title: consts.MAP_TITLE, 
+        description: consts.MAP_TEXT, 
+        url: consts.MAP_URL, 
+        picurl: consts.MAP_PICURL
+      }]);
     } else {
       wikia.info(msg.Content, function(err, item) {
         if (err) {
