@@ -7,5 +7,7 @@ module.exports = {
   'HELP_TEXT': '您可以输入的范围包括但不限于：人物、家族、地理、事件、历史、文化习俗、理论推测、章节梗概、游戏、剧集、书籍等。\n\n本平台是由冰与火之歌中文维基（http://zh.asoiaf.wikia.com）运维并提供数据的。若您认为某个词条不准确，可以登录维基网站修改相应词条，任何人都有编辑权限。', 
   'HELP_URL': 'http://mp.weixin.qq.com/s?__biz=MzA5OTI0NjM5Nw==&mid=202527811&idx=1&sn=1d999d7ef722033a3a6d192a7577b084#rd', 
   'HELP_PICURL': 'https://mmbiz.qlogo.cn/mmbiz/EJZuSeQ4xPV3IlhaibISeEADZWOcl3PhWLQ56KxckObpfzVolRRUOPbcMfAFO5tquXTEbhadV67a8I1eibia3FBVg/0', 
-  'WIKIA_LOGO': 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png'
+  'WIKIA_LOGO': 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png', 
+  'PIC_BIG': 'http://img2.wikia.nocookie.net/__cb66/asoiaf/zh/images/8/89/Wiki-wordmark.png', 
+  'PIC_SMALL': 'http://vignette4.wikia.nocookie.net/asoiaf/images/5/5c/Coats_of_arms_of_None.png/revision/latest?cb=20120412130844&path-prefix=zh'
 };

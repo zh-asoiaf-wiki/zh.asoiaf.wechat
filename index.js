@@ -28,6 +28,7 @@ var wikia = new utility.Wikia();
 
 var consts = require('./consts.js');
 var hack = require('./hack.js');
+var adapter = require('./adapter.js');
 
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
@@ -44,47 +45,21 @@ app.use('', wechat(wcConf, function(req, res, next) {
       }
       ]);
     } else {
-      wikia.info(msg.Content, function(err, info) {
+      wikia.info(msg.Content, function(err, item) {
         if (err) {
           logger.error(err);
           res.reply(consts.MSG_ERROR);
-        } else if (info) {
-          res.reply([
-          {
-            title: msg.Content, 
-            description: info['abstract'], 
-            url: info.url, 
-            picurl: ((info.picurl) ? info.picurl : consts.WIKIA_LOGO)
-          }
-          ]);
+        } else if (item) {
+          res.reply(adapter.info(item));
         } else {
-          wikia.search(msg.Content, function(err, articles) {
+          wikia.search(msg.Content, function(err, items) {
             if (err) {
               logger.error(err);
               res.reply(consts.MSG_ERROR);
-            } else if (!articles || articles.length == 0) {
+            } else if (!items || items.length == 0) {
               res.reply(consts.MSG_NOTFOUND);
             } else {
-              var items = [];
-              if (articles.length == 1) {
-                // take care of only-one-article-result
-                items.push({
-                  title: articles[0].title, 
-                  description: articles[0]['abstract'], 
-                  url: articles[0].url, 
-                  picurl: articles[0].picurl
-                });
-                res.reply(items);
-              } else {
-                for (var i = 0; i < articles.length; ++i) {
-                  items.push({
-                    title: articles[i].title, 
-                    url: articles[i].url, 
-                    picurl: articles[i].picurl
-                  });
-                }
-                res.reply(items);
-              }
+              res.reply(adapter.search(items));
             }
           });
         }
