@@ -46,6 +46,7 @@ app.use('', wechat(wcConf, function(req, res, next) {
     } else {
       wikia.info(msg.Content, function(err, info) {
         if (err) {
+          logger.error(err);
           res.reply(consts.MSG_ERROR);
         } else if (info) {
           res.reply([
@@ -59,21 +60,31 @@ app.use('', wechat(wcConf, function(req, res, next) {
         } else {
           wikia.search(msg.Content, function(err, articles) {
             if (err) {
+              logger.error(err);
               res.reply(consts.MSG_ERROR);
             } else if (!articles || articles.length == 0) {
-              res.reply(consts.NOTFOUND);
+              res.reply(consts.MSG_NOTFOUND);
             } else {
-              var content = consts.MSG_SUGGEST;
               var items = [];
-              for (var i = 0; i < articles.length; ++i) {
+              if (articles.length == 1) {
+                // take care of only-one-article-result
                 items.push({
-                  title: articles[i].title, 
-                  // description: TODO
-                  url: articles[i].url, 
-                  picurl: articles[i].picurl
+                  title: articles[0].title, 
+                  description: articles[0]['abstract'], 
+                  url: articles[0].url, 
+                  picurl: articles[0].picurl
                 });
+                res.reply(items);
+              } else {
+                for (var i = 0; i < articles.length; ++i) {
+                  items.push({
+                    title: articles[i].title, 
+                    url: articles[i].url, 
+                    picurl: articles[i].picurl
+                  });
+                }
+                res.reply(items);
               }
-              res.reply(items);
             }
           });
         }
