@@ -85,3 +85,7 @@ app.use('', wechat(wcConf, function(req, res, next) {
 var server = app.listen(80, function() {
   console.log('Server start...');
 });
+server.on('error', function(err) {
+  // TODO: error handler
+  console.log(err);
+});
