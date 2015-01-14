@@ -10,18 +10,27 @@ var wcConf = {
 var log4js = require('log4js');
 log4js.configure({
   appenders: [
+  {
+    type: 'file', 
+    filename: 'logs/error.log', 
+    maxLogSize: 16384, 
+    backups: 3, 
+    category: 'err'
+  }, 
   { 
     type: 'file', 
     filename: 'logs/access.log', 
-    maxLogSize: 65536, 
+    maxLogSize: 16384, 
     backups: 7, 
     category: 'normal'
   }
   ],
   replaceConsole: false
 });
-var logger = log4js.getLogger('normal');
+var logger = log4js.getLogger('normal'), 
+    elogger = log4js.getLogger('err');
 logger.setLevel('INFO');
+elogger.setLevel('ERROR');
 
 var utility = require('zh.asoiaf.utility');
 var wikia = new utility.Wikia();
@@ -55,7 +64,7 @@ app.use('', wechat(wcConf, function(req, res, next) {
     } else {
       wikia.info(msg.Content, function(err, item) {
         if (err) {
-          logger.error(err);
+          logger.error(err.stack);
           res.reply(consts.MSG_ERROR);
         } else if (item) {
           res.reply(adapter.info(item));
@@ -87,5 +96,5 @@ var server = app.listen(80, function() {
 });
 server.on('error', function(err) {
   // TODO: error handler
-  console.log(err);
+  elogger.error(err.stack);
 });
