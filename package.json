@@ -10,6 +10,7 @@
     "wechat": "*", 
     "express": "*", 
     "log4js": "*", 
+    "lru-cache": "*", 
     "zh.asoiaf.utility": "*"
   }, 
   "keywords": [

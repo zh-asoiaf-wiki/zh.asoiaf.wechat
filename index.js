@@ -1,12 +1,14 @@
+// wechat
 var wechat = require('wechat');
-var express = require('express');
-var app = express();
 var wcConf = {
   token: process.env.WC_TOKEN, 
   appid: process.env.WC_APPID, 
   encodingAESKey: process.env.WC_KEY
 };
-
+// express
+var express = require('express');
+var app = express();
+// log4js
 var log4js = require('log4js');
 log4js.configure({
   appenders: [
@@ -31,13 +33,19 @@ var logger = log4js.getLogger('normal'),
     elogger = log4js.getLogger('err');
 logger.setLevel('INFO');
 elogger.setLevel('ERROR');
-
+// lru-cache
+var LRU = require('lru-cache');
+var cache = LRU({
+  max: 500, 
+  maxAge: 1000 * 60 * 60
+});
+// zh.asoiaf.utility
 var utility = require('zh.asoiaf.utility');
 var wikia = new utility.Wikia();
 
-var consts = require('./consts.js');
-var hack = require('./hack.js');
-var adapter = require('./adapter.js');
+var consts = require('./consts.js'), 
+    hack = require('./hack.js'), 
+    adapter = require('./adapter.js');
 
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
@@ -62,25 +70,33 @@ app.use('', wechat(wcConf, function(req, res, next) {
         picurl: consts.MAP_PICURL
       }]);
     } else {
-      wikia.info(msg.Content, function(err, item) {
-        if (err) {
-          logger.error(err.stack);
-          res.reply(consts.MSG_ERROR);
-        } else if (item) {
-          res.reply(adapter.info(item));
-        } else {
-          wikia.search(msg.Content, function(err, items) {
-            if (err) {
-              logger.error(err);
-              res.reply(consts.MSG_ERROR);
-            } else if (!items || items.length == 0) {
-              res.reply(consts.MSG_NOTFOUND);
-            } else {
-              res.reply(adapter.search(items));
-            }
-          });
-        }
-      });
+      // find res in cache
+      var e = cache.get(msg.Content);
+      if (e) {
+        logger.info('cache hit: ' + msg.Content);
+        res.reply(e);
+      } else {
+        logger.info('cache miss: ' + msg.Content);
+        wikia.info(msg.Content, function(err, item) {
+          if (err) {
+            logger.error(err.stack);
+            res.reply(consts.MSG_ERROR);
+          } else if (item) {
+            writeCacheAndReply(msg.Content, adapter.info(item), res);
+          } else {
+            wikia.search(msg.Content, function(err, items) {
+              if (err) {
+                logger.error(err);
+                res.reply(consts.MSG_ERROR);
+              } else if (!items || items.length == 0) {
+                res.reply(consts.MSG_NOTFOUND);
+              } else {
+                writeCacheAndReply(msg.Content, adapter.search(items), res);
+              }
+            });
+          }
+        });
+      }
     }
   } else if (msg.MsgType == 'event') {
     if (msg.Event == 'subscribe') {
@@ -90,9 +106,15 @@ app.use('', wechat(wcConf, function(req, res, next) {
     }
   }
 }));
+// write <key, value> into cache and reply to wechat server with value
+var writeCacheAndReply = function(key, value, res) {
+  logger.info('write cache: ' + key);
+  cache.set(key, value);
+  res.reply(value);
+};
 
 var server = app.listen(80, function() {
-  console.log('Server start...');
+  logger.info('Server start...');
 });
 server.on('error', function(err) {
   // TODO: error handler
