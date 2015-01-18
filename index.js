@@ -78,7 +78,10 @@ app.use('', wechat(wcConf, function(req, res, next) {
         } else {
           var quotedBy = quote.quotedBy;
           if (_.isString(quotedBy)) {
-            res.reply(quote.quote + '\n——' + quotedBy);
+            var reply = quote.quote + ((quotedBy === '') 
+              ? '' 
+              : '\n——' + quotedBy);
+            res.reply(reply);
           } else {
             res.reply(adapter.quote(quote));
           }

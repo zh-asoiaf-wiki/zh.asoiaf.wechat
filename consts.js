@@ -19,7 +19,7 @@ module.exports = {
   'MAP_URL': 'http://maps.wikia-services.com/api/v1/render/945/7/0/0?uselang=zh&hideAttr=1', 
   'MAP_PICURL': 'http://vignette2.wikia.nocookie.net/asoiaf/images/d/d5/Map_thumbnail_for_wechat.jpg/revision/latest?cb=20150112142056&path-prefix=zh', 
   'KEY_QUOTE': [ 'q', 'quote', 'quotes', 'Quote', 'Quotes', '名言警句', '名言', '台词' ], 
-  'QUOTE_TITLE': '名言警句', 
+  'QUOTE_TITLE': '名人名言', 
   /*
    * Misc
    */
