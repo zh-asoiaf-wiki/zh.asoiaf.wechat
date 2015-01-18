@@ -29,8 +29,8 @@ log4js.configure({
   ],
   replaceConsole: false
 });
-var logger = log4js.getLogger('normal'), 
-    elogger = log4js.getLogger('err');
+var logger = log4js.getLogger('normal');
+var elogger = log4js.getLogger('err');
 logger.setLevel('INFO');
 elogger.setLevel('ERROR');
 // lru-cache
@@ -39,13 +39,15 @@ var cache = LRU({
   max: 500, 
   maxAge: 1000 * 60 * 60
 });
+// underscore
+var _ = require('underscore');
 // zh.asoiaf.utility
 var utility = require('zh.asoiaf.utility');
 var wikia = new utility.Wikia();
 
-var consts = require('./consts.js'), 
-    hack = require('./hack.js'), 
-    adapter = require('./adapter.js');
+var consts = require('./consts.js');
+var hack = require('./hack.js');
+var adapter = require('./adapter.js');
 
 app.use('', wechat(wcConf, function(req, res, next) {
   var msg = req.weixin;
@@ -69,6 +71,19 @@ app.use('', wechat(wcConf, function(req, res, next) {
         url: consts.MAP_URL, 
         picurl: consts.MAP_PICURL
       }]);
+    } else if (_.contains(consts.KEY_QUOTE, msg.Content)) {
+      wikia.quote(function(err, quote) {
+        if (err) {
+          res.reply(consts.MSG_ERROR);
+        } else {
+          var quotedBy = quote.quotedBy;
+          if (_.isString(quotedBy)) {
+            res.reply(quote.quote + '\n——' + quotedBy);
+          } else {
+            res.reply(adapter.quote(quote));
+          }
+        };
+      });
     } else {
       // find res in cache
       var e = cache.get(msg.Content);
@@ -91,7 +106,7 @@ app.use('', wechat(wcConf, function(req, res, next) {
               } else if (!items || items.length == 0) {
                 res.reply(consts.MSG_NOTFOUND);
               } else {
-                writeCacheAndReply(msg.Content, adapter.search(items), res);
+                writeCacheAndReply(msg.Content, adapter.infos(items), res);
               }
             });
           }

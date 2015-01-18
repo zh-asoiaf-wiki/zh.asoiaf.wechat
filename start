@@ -1,2 +1,3 @@
 #! /bin/bash
+rm forever*.log  logs/*.log
 forever start --append -l forever.log -o forever.o.log -e forever.e.log index.js

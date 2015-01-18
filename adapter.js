@@ -1,4 +1,6 @@
+var _ = require('underscore');
 var consts = require('./consts.js');
+
 var adapt = function(article) {
   return {
     'title': article.title, 
@@ -34,7 +36,7 @@ module.exports = {
     }
     return [ article ];
   }, 
-  search: function(items) {
+  infos: function(items) {
     var len = items.length;
     if (len == 1) {
       var item = items[0];
@@ -67,5 +69,19 @@ module.exports = {
       }
       return articles;
     }
+  }, 
+  quote: function(quote) {
+    var by = quote.quotedBy[0];
+    var article = adapt(by);
+    if (!by.thumbnail) {
+      article.picurl = consts.PIC_BIG;
+    } else {
+      article.picurl = resize(article.picurl, 
+        by['original_dimensions'].width, 
+        by['original_dimensions'].height);
+    }
+    article.title = consts.QUOTE_TITLE;
+    article.description = quote.quote + '\n——' + by.title;
+    return [ article ];
   }
 };

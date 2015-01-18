@@ -11,6 +11,7 @@
     "express": "*", 
     "log4js": "*", 
     "lru-cache": "*", 
+    "underscore": "*", 
     "zh.asoiaf.utility": "*"
   }, 
   "keywords": [
