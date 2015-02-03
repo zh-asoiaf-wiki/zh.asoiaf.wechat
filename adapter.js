@@ -71,10 +71,7 @@ module.exports = {
     }
   }, 
   quote: function(quote) {
-    console.log(quote.quotedBy);
     var by = quote.quotedBy[0];
-    console.log('by');
-    console.log(by);
     var article = adapt(by);
     if (!by.thumbnail) {
       article.picurl = consts.PIC_BIG;
