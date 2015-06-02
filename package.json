@@ -1,6 +1,6 @@
 {
   "name": "zh.asoiaf.wechat",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Wechat server for zh.asoiaf",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "log4js": "*", 
     "lru-cache": "*", 
     "underscore": "*", 
-    "zh.asoiaf.utility": "*"
+    "zh.asoiaf.utility": "1.0.0"
   }, 
   "keywords": [
     "zh.asoiaf",
