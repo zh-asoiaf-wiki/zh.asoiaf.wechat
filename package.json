@@ -1,21 +1,18 @@
 {
   "name": "zh.asoiaf.wechat",
-  "version": "1.0.0",
-  "description": "Wechat server for zh.asoiaf",
+  "version": "2.0.0",
+  "description": "Wechat server for asoiaf.huiji.wiki",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }, 
   "dependencies": {
-    "wechat": "*", 
-    "express": "*", 
-    "log4js": "*", 
-    "lru-cache": "*", 
-    "underscore": "*", 
-    "zh.asoiaf.utility": "1.0.0"
   }, 
   "keywords": [
+    "asoiaf",
     "zh.asoiaf",
+    "huiji",
+    "huiji.wiki",
     "wechat"
   ],
   "repository": {
