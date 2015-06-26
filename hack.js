@@ -1,5 +1,22 @@
 var util = require('node-huiji').Util;
+var consts = require('./consts.js');
 module.exports = [
+  /* hack for K_HELP */
+  {
+    key: ['帮助', '使用帮助', 'help', 'HELP', 'h', '指南', '使用指南', '怎么用'],
+    value: consts.K_HELP
+  },
+  /* hack for [[琼恩·雪诺/生死之谜]] */
+  {
+    key: util.hackFunc({
+      'all': ['死'],
+      'one': ['琼恩', '囧', '囧恩', '穷恩', '雪诺', '斯诺', '囧雪']
+    }, {
+      'all': [],
+      'one': ['艾林', '艾琳', '拉姆斯', '小剥皮']
+    }),
+    value: '琼恩·雪诺/生死之谜'
+  },
   /* direct redirection */
   {
     key: {
@@ -46,16 +63,5 @@ module.exports = [
       '权利的游戏': '权力的游戏'
     },
     value: undefined
-  },
-  /* hack for [[琼恩·雪诺/生死之谜]] */
-  {
-    key: util.hackFunc({
-      'all': ['死'],
-      'one': ['琼恩', '囧', '囧恩', '穷恩', '雪诺', '斯诺', '囧雪']
-    }, {
-      'all': [],
-      'one': ['艾林', '艾琳', '拉姆斯', '小剥皮']
-    }),
-    value: '琼恩·雪诺/生死之谜'
   }
 ];
