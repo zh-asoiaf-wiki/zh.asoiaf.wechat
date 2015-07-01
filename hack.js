@@ -1,5 +1,7 @@
 var util = require('node-huiji').Util;
 var consts = require('./consts.js');
+
+var hackJonSnow = ['琼恩', '囧', '囧恩', '穷恩', '穷嗯', '雪诺', '斯诺', '囧雪', 'jon', 'john', 'Jon', 'John', 'jon snow', 'Jon snow', 'john snow', 'John snow', 'John Snow'];
 module.exports = [
   /* hack for K_HELP */
   {
@@ -10,7 +12,7 @@ module.exports = [
   {
     key: util.hackFunc({
       'all': ['死'],
-      'one': ['琼恩', '囧', '囧恩', '穷恩', '穷嗯', '雪诺', '斯诺', '囧雪', 'jon', 'john', 'Jon', 'John']
+      'one': hackJonSnow
     }, {
       'all': [],
       'one': ['艾林', '艾琳', '拉姆斯', '小剥皮']
@@ -26,7 +28,7 @@ module.exports = [
     value: '艾莉亚·史塔克'
   },
   {
-    key: ['囧', '囧雪', '囧恩', '穷恩', '穷嗯', '斯诺', '雪诺', 'jon', 'john', 'Jon', 'John'],
+    key: hackJonSnow,
     value: '琼恩·雪诺'
   },
   {
