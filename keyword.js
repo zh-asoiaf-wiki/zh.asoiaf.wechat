@@ -11,5 +11,12 @@ module.exports = [
         picurl: 'https://mmbiz.qlogo.cn/mmbiz/EJZuSeQ4xPV3IlhaibISeEADZWOcl3PhWLQ56KxckObpfzVolRRUOPbcMfAFO5tquXTEbhadV67a8I1eibia3FBVg/0'
       }];
     }
+  },
+  /* forbid unhackable emotion to go through */
+  {
+    key: /^\//,
+    func: function(msg) {
+      return consts.MSG_EMOTION_FORBIDDEN;
+    }
   }
 ];
