@@ -13,11 +13,12 @@ wechat.addKeyword(keyword);
 wechat._filter = function(results) {
   var reg_filter = /(^用户博客|^TV talk|@comment)/;
   return _.filter(results, function(msg) {
-    var qualified = !reg_filter.test(msg.title);  // filter legacy namespaces
+    var qualified = !reg_filter.test(msg.title);    // filter legacy namespaces
     if (qualified) {
       var desc = msg.description;
       var index = desc.indexOf('↑');
-      msg.description = desc.substring(0, index); // filter tailing ref text
+      if (index >= 0)
+        msg.description = desc.substring(0, index); // filter tailing ref text
     }
     return qualified;
   });
