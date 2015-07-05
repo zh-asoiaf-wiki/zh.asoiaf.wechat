@@ -1,6 +1,6 @@
 module.exports = {
   name: 'asoiaf',
-  port: 80,
+  port: 10000,
   wechat: {
     'token': process.env.WECHAT_ASOIAF_TOKEN,
     'appid': process.env.WECHAT_ASOIAF_APPID,
