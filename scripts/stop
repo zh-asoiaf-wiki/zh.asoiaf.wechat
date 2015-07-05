@@ -1,2 +1,2 @@
 #! /bin/bash
-forever stop index.js
+forever stop asoiaf.js

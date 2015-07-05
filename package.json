@@ -2,7 +2,7 @@
   "name": "zh.asoiaf.wechat",
   "version": "2.0.0",
   "description": "Wechat server for asoiaf.huiji.wiki",
-  "main": "index.js",
+  "main": "asoiaf.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }, 
