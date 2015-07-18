@@ -16,18 +16,6 @@ WeChat.prototype._filter = function(results) {
   });
 };
 
-// customize _err & _noresult
-WeChat.prototype._err = function(err, res) {
-  console.log(err);
-  res.reply(_.sample(this.conf.CONST.MSG_ERR));
-  return;
-};
-WeChat.prototype._noresult = function(res) {
-  console.log('NO RESULT');
-  res.reply(_.sample(this.conf.CONST.MSG_NORESULT));
-  return;
-};
-
 var config = require('./config.js');
 var wechat = new WeChat(config);
 

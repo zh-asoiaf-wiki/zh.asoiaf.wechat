@@ -11,7 +11,6 @@ module.exports = {
   CONST: {
     MSG_ERR: consts.MSG_ERR,
     MSG_NORESULT: consts.MSG_NORESULT,
-    MSG_SUBSCRIBE: consts.MSG_SUBSCRIBE,
-    SEARCH_LIMIT: 7
+    MSG_SUBSCRIBE: consts.MSG_SUBSCRIBE
   }
 };
