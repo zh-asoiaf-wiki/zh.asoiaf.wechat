@@ -8,6 +8,11 @@ module.exports = [
     key: ['帮助', '使用帮助', 'help', 'HELP', 'h', '指南', '使用指南', '怎么用'],
     value: consts.K_HELP
   },
+  /* hack for K_SONG */
+  {
+    key: ['判词', '每日判词', '今日判词', '每日一判词', '每日音乐', '今日音乐'],
+    value: consts.K_SONG
+  },
   /* hack for [[琼恩·雪诺/生死之谜]] */
   {
     key: util.hackFunc({

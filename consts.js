@@ -17,5 +17,6 @@ module.exports = {
 
   /* other CONSTs */
   K_HELP: '1',
+  K_SONG: '每日判词',
   MSG_EMOTION_FORBIDDEN: '“停下，你这小笨蛋，”他边喊边晃她，“快停下！”'
 };
