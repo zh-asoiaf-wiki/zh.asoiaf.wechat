@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var Q = require('q');
+var WeChat = require('node-huiji').WeChat;
 var consts = require('./consts.js');
 module.exports = [
   /* keyword K_HELP */
@@ -22,6 +23,7 @@ module.exports = [
       var START_DATE = new Date('2015-07-16');
       var TITLE_PREFIX = '每日一判词/';
       var date = new Date();
+      var isToday = true;
 
       /*
        * Use UTC time instead of local time.
@@ -44,6 +46,10 @@ module.exports = [
           if (err) {
             callback(err);
           } else if (data.length == 0) {
+            if (isToday) {
+              wechat._cache_write(consts.K_SONG, WeChat.CACHE_NOUSE);
+              isToday = false;
+            }
             date.setDate(date.getDate() - 1);
             if (date > START_DATE) {
               get(callback);
@@ -51,6 +57,7 @@ module.exports = [
               // TODO
             }
           } else {
+            if (isToday) wechat._cache_write(consts.K_SONG, WeChat.CACHE_USE);
             callback(null, wechat.filter([wechat._single(data[0])]));
           }
         });
